@@ -1,19 +1,52 @@
-SELECT * FROM department
-INNER JOIN role
-ON department.id = role.department_id
-INNER JOIN employee
-on role.id = role_id;
--- links all tables and information together returning a disgusting humonculi of information
-
 -- List all employees!
-SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, employee.manager_id AS manager
-FROM role
-INNER JOIN employee
-ON role_id = role.id
+-- SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, employee.manager_id AS manager
+-- FROM role
+-- INNER JOIN employee
+-- ON role_id = role.id
+-- INNER JOIN department
+-- on department_id = department.id
+-- ORDER BY employee.id;
+
+-- trying to do a self join - almost there! - currently excluding ids that dont have a manager.... need to fix that
+-- SELECT m.id, m.first_name, m.last_name, role.title, department.name AS department, role.salary, e.first_name AS manager_firstname, e.last_name AS manager_lastname
+-- FROM employee e
+-- INNER JOIN employee m
+-- ON m.manager_id = e.id
+-- INNER JOIN role
+-- ON e.role_id = role.id
+-- INNER JOIN department
+-- on department_id = department.id
+-- ORDER BY id;
+
+-- THIS FUCKING WORKS!!! FUCK YEAH - List all ids, employee fist and last names, titles, departments, salaries, and manager (firstnames)
+SELECT m.id, m.first_name, m.last_name, role.title, department.name AS department, role.salary, e.first_name AS manager_firstname
+FROM employee e
+RIGHT JOIN employee m
+ON m.manager_id = e.id
+INNER JOIN role
+ON m.role_id = role.id
 INNER JOIN department
 on department_id = department.id
-ORDER BY employee.id;
+ORDER BY id;
 
+-- SELECT m.id, m.first_name, m.last_name, e.first_name AS manager_firstname
+-- FROM employee e
+-- RIGHT JOIN employee m
+-- ON m.manager_id = e.id;
+
+-- -- trying to do a self join 2
+-- SELECT 
+--     m.id AS id,
+--     m.first_name AS employee,
+--     e.first_name AS manager
+-- FROM employee e
+-- RIGHT JOIN employee m
+-- ON m.manager_id = e.id;
+
+
+-- self join from: https://www.sqltutorial.org/sql-self-join/
+
+----------------------------------------------------------------------------------
 
 -- department ;table
 -- id                   +
@@ -34,15 +67,6 @@ ORDER BY employee.id;
 -- manager_id               #
 
 ------------------------------------------------------------------------------------
-
--- SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, employee.manager_id AS manager
--- FROM role
--- INNER JOIN employee
--- ON role_id = role.id;
--- INNER JOIN employee
--- on department_id = department.id
--- ORDER BY employee.id;
-
 
 -- SELECT *
 --   FROM table1
