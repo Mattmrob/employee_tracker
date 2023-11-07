@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const { listAll } = require('./trackController')
 
 const init = () => {
 
@@ -26,6 +27,7 @@ inquirer.prompt([
     switch (res.option) {
         case "View all Employees":
             console.log(res.option)
+            listAll();
             // pull all employees first/lastname, their departments, ids, salary, and managers - display in console
             // if no manager, display null
             break;

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { listAll } = require('../../../controllers/trackController')
 // const { getTodos, createTodo, updateTodoById, deleteTodoById, getTodoById } = require("../../../controllers/todosController")
 // example from previous project, need to destructure controllers from controller folder
 
@@ -6,8 +7,7 @@ const router = require('express').Router();
 // router.post('/', createTodo);
 
 // router.route('/')
-//     .get(getTodos)
-//     .post(createTodo);
+//     .get(listAll);
 
 // // for doing anything to a specific row in our table
 // router.route('/:id')
