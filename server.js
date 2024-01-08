@@ -11,4 +11,9 @@ app.use(express.json());
 
 app.use(routes);
 
+app.get('/api/tracker', async (req, res) => {
+    return listAll();
+})
+
+
 app.listen(PORT, () => console.log(`Server running at port ${PORT}`));

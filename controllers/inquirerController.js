@@ -1,14 +1,17 @@
 const inquirer = require('inquirer');
-const { listAll } = require('./trackController')
+const { listAll, addEmployee, getManager } = require('./trackController')
 
 const init = () => {
+    console.log("Welcome to the Employee Manager App!")
+    runInq();
+}
 
-inquirer.prompt([
+const runInq = () => inquirer.prompt([
 
     {
         type: 'list',
         name: 'option',
-        message: "Welcome to the Employee Manager!",
+        message: "Please select an option!",
         choices: [
             'View all Employees',
             'Add Employee',
@@ -23,17 +26,19 @@ inquirer.prompt([
 
 ]).then(res => {
 
-    // Need to add controllers which display blocks of mysql data and allows for interaction
     switch (res.option) {
         case "View all Employees":
-            console.log(res.option)
-            listAll();
-            // pull all employees first/lastname, their departments, ids, salary, and managers - display in console
-            // if no manager, display null
+            listAll()
+            .then(data => {
+            console.table(data);
+            console.log("Here are all of our employees!");
+            res.option = "";
+            return runInq();
+        });
             break;
         case "Add Employee":
-            console.log(res.option)
             // enter a first then a last name, pick a role, then select a manager
+            addEmpInq();
             break;
         case "Update Employee Role":
             console.log(res.option)
@@ -57,14 +62,50 @@ inquirer.prompt([
             // Adds a department to the department table (text input)
             break;
         case "Quit":
-            console.log(res.option)
+            return console.log("Bye bye!");
             break;
     }   
 
-    })
+    });
 
-}
+const addEmpInq = () => inquirer.prompt([
+
+    {
+        type: 'input',
+        name: 'first_name',
+        message: "Please enter the employee's first name",
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: "Please enter the employee's last name",
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: "Please select the employee's role",
+        choices: [
+            "Sales Lead",
+            "Salesperson",
+            "Lead Engineer",
+            "Software Manager",
+            "Accountant",
+            "Legal Team Lead",
+            "Lawyer"
+        ]
+    },
+    {
+        type: 'list',
+        name: 'manager',
+        message: "Please select the employee's manager",
+        choices: [
+            "managers go here"
+        ]
+    },
+
+]).then(runInq());
 
 module.exports = {
     init,
+    runInq
 }

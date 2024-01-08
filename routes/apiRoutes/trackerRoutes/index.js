@@ -6,8 +6,8 @@ const { listAll } = require('../../../controllers/trackController')
 // router.get('/', getTodos);
 // router.post('/', createTodo);
 
-// router.route('/')
-//     .get(listAll);
+router.route('/')
+    .get(listAll);
 
 // // for doing anything to a specific row in our table
 // router.route('/:id')
