@@ -52,13 +52,16 @@ const addEmployee = (input) => {
     return addEmpQuery;
 };
 
-const addDepartment = (input) => {
+const addDepartment = async (req, res) => {
 
-    const addEmpQuery = 
-    `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-    VALUES ("${input.first_name}", "${input.last_name}", ${input.role_id}, ${input.manager_id});`;
+    try {
+        const [rows] = await connection.query(`INSERT INTO department (name) VALUES ("${req}");`);
+        return console.log(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
 
-    return addEmpQuery;
 };
 
 
@@ -67,6 +70,7 @@ module.exports = {
     listAllRoles,
     listAllDepartments,
     addEmployee,
+    addDepartment,
     getManager,
 }
 

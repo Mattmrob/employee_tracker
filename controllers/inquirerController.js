@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { listAll, listAllRoles, listAllDepartments, addEmployee, getManager } = require('./trackController')
+const { listAll, listAllRoles, listAllDepartments, addEmployee, addDepartment, getManager } = require('./trackController')
 
 const init = () => {
     console.log("Welcome to the Employee Manager App!")
@@ -75,9 +75,11 @@ const runInq = () => inquirer.prompt([
             addDepartmentInq()
             .then(res => {
                 dName = res.departmentName;
+                addDepartment(dName);
+            }) 
+            .then(data => {
                 return runInq()
-            })
-            console.log(res.option)
+            });
             // Adds a department to the department table (text input), department id is auto generated
             break;
         case "Quit":
