@@ -39,7 +39,7 @@ const runInq = () => inquirer.prompt([
             });
             break;
         case "Add Employee":
-            // enter a first then a last name, pick a role, then select a manager
+            // enter a first, last name, pick a role, then manager id
             addEmpInq()
             .then(data => {
                 return runInq()
@@ -60,10 +60,8 @@ const runInq = () => inquirer.prompt([
             // lists all roles, including the id, title, department, and salary of each
             break;
         case " Add Role":
-            //REQUIRED
+            // Roles require a title, a yearly salary, and a department id they are associated to
             console.log(res.option)
-            // Add a new role - name + salary (text input), then department it belongs to (from list)
-            // this is added to the mysql database, at the role table
             break;
         case "View All Departments":
             listAllDepartments()
@@ -73,13 +71,17 @@ const runInq = () => inquirer.prompt([
             });
             break;
         case "Add Department":
-            // REQUIRED
+            let dName = "";
+            addDepartmentInq()
+            .then(res => {
+                dName = res.departmentName;
+                return runInq()
+            })
             console.log(res.option)
-            // Adds a department to the department table (text input)
+            // Adds a department to the department table (text input), department id is auto generated
             break;
         case "Quit":
             return console.log("Bye bye!");
-            break;
     }   
 
     });
@@ -118,6 +120,16 @@ const addEmpInq = () => inquirer.prompt([
         choices: [
             "managers go here"
         ]
+    },
+
+]);
+
+const addDepartmentInq = () => inquirer.prompt([
+
+    {
+        type: 'input',
+        name: 'departmentName',
+        message: "Please enter the name of the new Department",
     },
 
 ])
