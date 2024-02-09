@@ -76,9 +76,9 @@ const addRole = async (req, res) => {
 
 };
 
-let departmentQuery = () => {
+let departmentQuery = async () => {
 
-    let dQuery = listAllDepartments();
+    let dQuery = await listAllDepartments();
     let departmentNames = [];
 
     for (i = 0; i < dQuery.length; i++) {

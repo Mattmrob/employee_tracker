@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { listAll, listAllRoles, listAllDepartments, addEmployee, addDepartment, addRole, getManager } = require('./trackController')
+const { listAll, listAllRoles, listAllDepartments, addEmployee, addDepartment, getDepartmentId, departmentQuery, addRole, getManager } = require('./trackController')
 
 const init = () => {
     console.log("Welcome to the Employee Manager App!")
@@ -59,15 +59,19 @@ const runInq = () => inquirer.prompt([
             console.log(res.option)
             // lists all roles, including the id, title, department, and salary of each
             break;
-        case " Add Role":
-            addRoleInq()
+        case "Add Role":
+            let dNames = [];
+            departmentQuery()
             .then(res => {
-            }) 
-            .then(data => {
-                return runInq()
-            });
+                dNames = res;
+                console.log(dNames);
+            })
+            return;
+            // addRoleInq()
+            // .then(data => {
+            //     return runInq()
+            // });
             // Roles require a title, a yearly salary, and a department id they are associated to
-            console.log(res.option)
             break;
         case "View All Departments":
             listAllDepartments()
