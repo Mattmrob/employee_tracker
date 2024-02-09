@@ -9,8 +9,6 @@ ON m.role_id = role.id
 INNER JOIN department
 on department_id = department.id
 ORDER BY id;
-
-
 ----------------------------------------------------------------------------------
 
 -- department ;table

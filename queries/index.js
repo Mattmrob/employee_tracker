@@ -9,6 +9,10 @@ const listAllEmployees =
     on department_id = department.id
     ORDER BY id;`
 
+const listAllRoles =
+    `SELECT * FROM role`
+
 module.exports = {
     listAllEmployees,
+    listAllRoles,
 }

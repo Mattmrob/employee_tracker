@@ -28,6 +28,6 @@ VALUES ("Bigg", "Mike", 1, null),
        ("Stephany", "Harts", 8, 9),
        ("Ben", "Jamin", 8, 9);
 
-ALTER TABLE employee
-ADD FOREIGN KEY (manager_id) REFERENCES employee (id);
+-- ALTER TABLE employee
+-- ADD FOREIGN KEY (manager_id) REFERENCES employee (id);
 -- solution from Stakx on https://stackoverflow.com/questions/25878192/how-to-add-a-foreign-key-referring-to-itself-in-sql-server-2008

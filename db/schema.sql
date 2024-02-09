@@ -27,3 +27,7 @@ CREATE TABLE employee (
     PRIMARY KEY (id),
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
+
+ALTER TABLE employee
+ADD FOREIGN KEY (manager_id) REFERENCES employee (id);
+-- solution from Stakx on https://stackoverflow.com/questions/25878192/how-to-add-a-foreign-key-referring-to-itself-in-sql-server-2008

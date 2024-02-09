@@ -7,8 +7,16 @@ const listAll = async (req,res) => {
     try {
         const [rows] = await connection.query(queries.listAllEmployees);
         return rows;
-        // res.json(rows);
-        // console.log('Here are our current employees!');
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+};
+
+const listAllRoles = async (req,res) => {
+    try {
+        const [rows] = await connection.query(queries.listAllRoles);
+        return rows;
     } catch (error) {
         console.log(error);
         res.status(500).json({ error });
@@ -37,6 +45,7 @@ const addEmployee = (input) => {
 
 module.exports = {
     listAll,
+    listAllRoles,
     addEmployee,
     getManager,
 }
@@ -45,3 +54,7 @@ module.exports = {
 
 
 // for (loop through every object in database i) { item.id[0] }
+
+
+// query all roles, loop through each title and add to array, use array as variable for inquirer option
+// data[i].title for each option
