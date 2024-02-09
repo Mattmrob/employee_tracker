@@ -56,7 +56,43 @@ const addDepartment = async (req, res) => {
 
     try {
         const [rows] = await connection.query(`INSERT INTO department (name) VALUES ("${req}");`);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+
+};
+
+const addRole = async (req, res) => {
+
+    try {
+        const [rows] = await connection.query(`SELECT name, id FROM department WHERE name IN ("Finance");`);
         return console.log(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+
+};
+
+let departmentQuery = () => {
+
+    let dQuery = listAllDepartments();
+    let departmentNames = [];
+
+    for (i = 0; i < dQuery.length; i++) {
+        deparmentNames = departmentNames.push(dQuery[i].name)
+    }
+
+    return departmentNames
+} 
+
+const getDepartmentId = async (req, res) => {
+
+    try {
+        const [rows] = await connection.query(`SELECT name, id FROM department WHERE name IN ("${req}");`);
+        return rows.id;
     } catch (error) {
         console.log(error);
         res.status(500).json({ error });
@@ -71,6 +107,9 @@ module.exports = {
     listAllDepartments,
     addEmployee,
     addDepartment,
+    addRole,
+    departmentQuery,
+    getDepartmentId,
     getManager,
 }
 

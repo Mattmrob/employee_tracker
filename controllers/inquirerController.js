@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { listAll, listAllRoles, listAllDepartments, addEmployee, addDepartment, getManager } = require('./trackController')
+const { listAll, listAllRoles, listAllDepartments, addEmployee, addDepartment, addRole, getManager } = require('./trackController')
 
 const init = () => {
     console.log("Welcome to the Employee Manager App!")
@@ -60,6 +60,12 @@ const runInq = () => inquirer.prompt([
             // lists all roles, including the id, title, department, and salary of each
             break;
         case " Add Role":
+            addRoleInq()
+            .then(res => {
+            }) 
+            .then(data => {
+                return runInq()
+            });
             // Roles require a title, a yearly salary, and a department id they are associated to
             console.log(res.option)
             break;
@@ -134,7 +140,28 @@ const addDepartmentInq = () => inquirer.prompt([
         message: "Please enter the name of the new Department",
     },
 
-])
+]);
+
+const addRoleInq = () => inquirer.prompt([
+
+    {
+        type: 'input',
+        name: 'title',
+        message: "Please enter the name of this new role",
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: "Please enter the yearly salary of this new role",
+    },
+    {
+        type: 'list',
+        name: 'departmentId',
+        message: "Please select the department this role belongs to",
+        choices: departments
+    },
+
+]);
 
 module.exports = {
     init,
