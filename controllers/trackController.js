@@ -137,6 +137,11 @@ const getManagerId = async (req, res) => {
 
     let trimmed_name = req.split(' ');
 
+    // let verify = {
+    //     first: "",
+    //     last: "",
+    // }
+
     try {
         const [rows] = await connection.query(`SELECT first_name, last_name, id FROM employee WHERE first_name IN ("${trimmed_name[0]}");`);
         return rows;
@@ -145,7 +150,38 @@ const getManagerId = async (req, res) => {
         res.status(500).json({ error });
     }
 
+
+    // experimental
+
+    // try {
+    //     const [rows] = await connection.query(`SELECT first_name, last_name, id FROM employee WHERE last_name IN ("${trimmed_name[1]}");`);
+    //     verify.last = rows;
+    // } catch (error) {
+    //     console.log(error);
+    //     res.status(500).json({ error });
+    // }
+
+
+    // if (verify.first > 1 || verify.last > 1) {
+
+    //     verify.first.first_name.filter(verify.last.first_name)
+    //     // for (let i = 0; i < verify.last.length || verify.first.length; i++) {
+
+
+    //     //     FirstFirst = (verify.first[i].first_name == verify.last[i].first_name);
+    //     //     FirstLast =  (verify.first[i].last_name == verify.last[i].last_name);
+    //     // }
+    // }
+
+    // checkFirst = (verify.first.first_name == verify.last.first_name);
+    // checkLast =  (verify.first.last_name == verify.last.last_name);
+
+    // return verify;
 };
+
+// const verifyManager = (input) => {
+//     return console.log(input.last.last_name == input.first.first_name);
+// }
 
 
 module.exports = {
