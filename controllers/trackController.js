@@ -121,6 +121,32 @@ const getDepartmentId = async (req, res) => {
 
 };
 
+const getRoleId = async (req, res) => {
+
+    try {
+        const [rows] = await connection.query(`SELECT title, id FROM role WHERE title IN ("${req}");`);
+        return rows;
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+
+};
+
+const getManagerId = async (req, res) => {
+
+    let trimmed_name = req.split(' ');
+
+    try {
+        const [rows] = await connection.query(`SELECT first_name, last_name, id FROM employee WHERE first_name IN ("${trimmed_name[0]}");`);
+        return rows;
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+
+};
+
 
 module.exports = {
     listAll,
@@ -133,6 +159,8 @@ module.exports = {
     roleQuery,
     managerQuery,
     getDepartmentId,
+    getRoleId,
+    getManagerId,
 }
 
 

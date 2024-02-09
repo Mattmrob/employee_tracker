@@ -6,6 +6,8 @@ const {
         addEmployee, 
         addDepartment, 
         getDepartmentId, 
+        getRoleId,
+        getManagerId,
         departmentQuery,
         roleQuery,
         managerQuery,
@@ -51,6 +53,12 @@ const runInq = () => inquirer.prompt([
         case "Add Employee":
             let eRoles = [];
             let eManagers = [];
+            let eVal = {
+                first_name: "",
+                last_name: "",
+                role_id: 0,
+                manager_id: null,
+            }
             roleQuery()
             .then(res => {
                 eRoles = res;
@@ -59,7 +67,25 @@ const runInq = () => inquirer.prompt([
                     eManagers = res
                     addEmpInq(eRoles, eManagers)
                     .then(res => {
-                        console.log(res);
+                        eVal.first_name = res.first_name;
+                        eVal.last_name = res.last_name;
+                        eVal.manager_id = res.manager;
+                        getRoleId(res.role)
+                        .then(res => {
+                            eVal.role_id = res[0].id;
+                            getManagerId(eVal.manager_id)
+                            .then(res => {
+                                if (res = null || undefined) {
+                                    eVal.manager_id = null;
+                                } else {
+                                    eVal.manager_id = res[0].id;
+                                }
+                                addEmployee(eVal)
+                                .then(res => {
+                                    return runInq();
+                                })
+                            })
+                        })
                     })
                 })
             })
