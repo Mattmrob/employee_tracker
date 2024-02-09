@@ -75,10 +75,12 @@ const runInq = () => inquirer.prompt([
                             eVal.role_id = res[0].id;
                             getManagerId(eVal.manager_id)
                             .then(res => {
-                                if (res = null || undefined) {
+                                console.log(res);
+                                if (res = []) {
                                     eVal.manager_id = null;
                                 } else {
-                                    eVal.manager_id = res[0].id;
+                                    let newManagerId = res[0].id;
+                                    eVal.manager_id = newManagerId;
                                 }
                                 addEmployee(eVal)
                                 .then(res => {
