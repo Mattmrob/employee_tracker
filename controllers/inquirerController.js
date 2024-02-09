@@ -60,18 +60,46 @@ const runInq = () => inquirer.prompt([
             // lists all roles, including the id, title, department, and salary of each
             break;
         case "Add Role":
+            // names of departments to select from
             let dNames = [];
+            // values of inquirer role prompt to be pushed to
+            let roleVal = {
+                title: "",
+                salary: 0,
+                departmentId: 0,
+            };
+            // gets all department names
             departmentQuery()
             .then(res => {
                 dNames = res;
-                console.log(dNames);
+                addRoleInq(dNames)
+                .then(res => {
+                    roleVal.title = res.title;
+                    roleVal.salary = res.salary;
+                    getDepartmentId(res.departmentName).then(res => {
+                        roleVal.departmentId = res[0].id;
+                        console.log(roleVal);
+                    })
+                });
             })
-            return;
-            // addRoleInq()
-            // .then(data => {
+            // runs inquirer prompt
+            .then(data => {
+                // adds data to roleVal and gets department id that matches department name
+            })
+            // .then(res => {
+            //     console.log(res.title, res.salary, res.departmentName)
+            //     roleVal.title = res.title;
+            //     roleVal.salary = res.salary;
+            //     // search sql database for department that matches departmentname, then add that department's id valye to roleVal
+            //     chosenDId = getDepartmentId(res.departmentName)
+            // .then(res => {
+            //      roleVal.departmentId = res.id
+            //      console.log(roleVal);
+            // });
+            // })
+            // .then(res => {
             //     return runInq()
             // });
-            // Roles require a title, a yearly salary, and a department id they are associated to
             break;
         case "View All Departments":
             listAllDepartments()
@@ -146,7 +174,7 @@ const addDepartmentInq = () => inquirer.prompt([
 
 ]);
 
-const addRoleInq = () => inquirer.prompt([
+const addRoleInq = (departments) => inquirer.prompt([
 
     {
         type: 'input',
@@ -160,7 +188,7 @@ const addRoleInq = () => inquirer.prompt([
     },
     {
         type: 'list',
-        name: 'departmentId',
+        name: 'departmentName',
         message: "Please select the department this role belongs to",
         choices: departments
     },

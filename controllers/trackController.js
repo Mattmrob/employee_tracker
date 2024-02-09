@@ -92,7 +92,7 @@ const getDepartmentId = async (req, res) => {
 
     try {
         const [rows] = await connection.query(`SELECT name, id FROM department WHERE name IN ("${req}");`);
-        return rows.id;
+        return rows;
     } catch (error) {
         console.log(error);
         res.status(500).json({ error });
