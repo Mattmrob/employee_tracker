@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { listAll, listAllRoles, addEmployee, getManager } = require('./trackController')
+const { listAll, listAllRoles, listAllDepartments, addEmployee, getManager } = require('./trackController')
 
 const init = () => {
     console.log("Welcome to the Employee Manager App!")
@@ -66,9 +66,11 @@ const runInq = () => inquirer.prompt([
             // this is added to the mysql database, at the role table
             break;
         case "View All Departments":
-            // REQUIRED
-            console.log(res.option)
-            // View all existing departments (mysql list)
+            listAllDepartments()
+            .then(data => {
+                console.table(data);
+                return runInq()
+            });
             break;
         case "Add Department":
             // REQUIRED

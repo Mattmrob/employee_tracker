@@ -23,6 +23,16 @@ const listAllRoles = async (req,res) => {
     }
 };
 
+const listAllDepartments = async (req,res) => {
+    try {
+        const [rows] = await connection.query(queries.listAllDepartments);
+        return rows;
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+};
+
 const getManager = async (req, res) => {
     try {
         const [rows] = await connection.query(`SELECT first_name FROM employee;`);
@@ -46,6 +56,7 @@ const addEmployee = (input) => {
 module.exports = {
     listAll,
     listAllRoles,
+    listAllDepartments,
     addEmployee,
     getManager,
 }
