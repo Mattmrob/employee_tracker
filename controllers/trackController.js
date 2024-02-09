@@ -33,21 +33,16 @@ const listAllDepartments = async (req,res) => {
     }
 };
 
-const getManager = async (req, res) => {
+const addEmployee = async (req, res) => {
+
     try {
-        const [rows] = await connection.query(`SELECT first_name FROM employee;`);
-        return console.log(rows);
+        const addEmpQuery = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${req.first_name}", "${req.last_name}", ${req.role_id}, ${req.manager_id});`;
+        const [rows] = await connection.query(addEmpQuery);
+        return;
     } catch (error) {
         console.log(error);
         res.status(500).json({ error });
     }
-}
-
-const addEmployee = (input) => {
-
-    const addEmpQuery = 
-    `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-    VALUES ("${input.first_name}", "${input.last_name}", ${input.role_id}, ${input.manager_id});`;
 
     return addEmpQuery;
 };
@@ -81,12 +76,36 @@ let departmentQuery = async () => {
     let dQuery = await listAllDepartments();
     let departmentNames = [];
 
-    for (i = 0; i < dQuery.length; i++) {
-        deparmentNames = departmentNames.push(dQuery[i].name)
-    }
 
-    return departmentNames
-} 
+    for (i = 0; i < dQuery.length; i++) {
+        departmentNames.push(dQuery[i].name)
+    };
+    return departmentNames;
+};
+
+const roleQuery = async (req, res) => {
+
+    let rQuery = await listAllRoles();
+    let roleNames = [];
+
+    for (i = 0; i < rQuery.length; i++) {
+        roleNames.push(rQuery[i].title)
+    };
+
+    return roleNames;
+};
+
+const managerQuery = async (req, res) => {
+    
+    let uQuery = await listAll();
+    let userNames = [];
+
+    for (i = 0; i < uQuery.length; i++) {
+        userNames.push(uQuery[i].first_name + " " + uQuery[i].last_name)
+    };
+
+    return userNames;
+};
 
 const getDepartmentId = async (req, res) => {
 
@@ -109,8 +128,9 @@ module.exports = {
     addDepartment,
     addRole,
     departmentQuery,
+    roleQuery,
+    managerQuery,
     getDepartmentId,
-    getManager,
 }
 
 

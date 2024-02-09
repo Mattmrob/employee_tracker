@@ -1,12 +1,21 @@
 const inquirer = require('inquirer');
-const { listAll, listAllRoles, listAllDepartments, addEmployee, addDepartment, getDepartmentId, departmentQuery, addRole, getManager } = require('./trackController')
+const { 
+        listAll, 
+        listAllRoles, 
+        listAllDepartments, 
+        addEmployee, 
+        addDepartment, 
+        getDepartmentId, 
+        departmentQuery,
+        roleQuery,
+        managerQuery,
+        addRole
+      } = require('./trackController')
 
 const init = () => {
     console.log("Welcome to the Employee Manager App!")
     runInq();
 }
-
-const test = ['1', '2', '3']
 
 const runInq = () => inquirer.prompt([
 
@@ -38,18 +47,22 @@ const runInq = () => inquirer.prompt([
                 return runInq();
             });
             break;
+
         case "Add Employee":
             // enter a first, last name, pick a role, then manager id
-            addEmpInq()
-            .then(data => {
-                return runInq()
+            // roleQuery()
+            managerQuery()
+            .then(res => {
+                console.log(res);
             });
             break;
+
         case "Update Employee Role":
             // REQUIRED
             console.log(res.option)
             // select an employee, select a new role for them - list - (updates on sql)
             break;
+
         case "View All Roles":
             listAllRoles()
             .then(data => {
@@ -59,6 +72,7 @@ const runInq = () => inquirer.prompt([
             console.log(res.option)
             // lists all roles, including the id, title, department, and salary of each
             break;
+
         case "Add Role":
             // names of departments to select from
             let dNames = [];
@@ -68,15 +82,18 @@ const runInq = () => inquirer.prompt([
                 salary: 0,
                 departmentId: 0,
             };
-            // gets all department names
+            // gets all department names and feed them into inquirer prompt as choices through the dNames variable
             departmentQuery()
             .then(res => {
                 dNames = res;
                 addRoleInq(dNames)
+                // assign user choices to roleVal
                 .then(res => {
                     roleVal.title = res.title;
                     roleVal.salary = res.salary;
                     getDepartmentId(res.departmentName)
+                    // search department table for matching name, then return its id to be added to roleval
+                    // and add the role with the values of roleval
                     .then(res => {
                         roleVal.departmentId = res[0].id;
                         addRole(roleVal)
@@ -85,22 +102,9 @@ const runInq = () => inquirer.prompt([
                         })
                     });
                 });
-            })
-            // .then(res => {
-            //     console.log(res.title, res.salary, res.departmentName)
-            //     roleVal.title = res.title;
-            //     roleVal.salary = res.salary;
-            //     // search sql database for department that matches departmentname, then add that department's id valye to roleVal
-            //     chosenDId = getDepartmentId(res.departmentName)
-            // .then(res => {
-            //      roleVal.departmentId = res.id
-            //      console.log(roleVal);
-            // });
-            // })
-            // .then(res => {
-            //     return runInq()
-            // });
+            });
             break;
+
         case "View All Departments":
             listAllDepartments()
             .then(data => {
@@ -108,6 +112,7 @@ const runInq = () => inquirer.prompt([
                 return runInq()
             });
             break;
+
         case "Add Department":
             let dName = "";
             addDepartmentInq()
@@ -120,6 +125,7 @@ const runInq = () => inquirer.prompt([
             });
             // Adds a department to the department table (text input), department id is auto generated
             break;
+
         case "Quit":
             return console.log("Bye bye!");
     }   
@@ -142,24 +148,13 @@ const addEmpInq = () => inquirer.prompt([
         type: 'list',
         name: 'role',
         message: "Please select the employee's role",
-        choices: test
-        // [
-        //     "Sales Lead",
-        //     "Salesperson",
-        //     "Lead Engineer",
-        //     "Software Manager",
-        //     "Accountant",
-        //     "Legal Team Lead",
-        //     "Lawyer"
-        // ]
+        choices: eRoles
     },
     {
         type: 'list',
         name: 'manager',
         message: "Please select the employee's manager",
-        choices: [
-            "managers go here"
-        ]
+        choices: eManagers
     },
 
 ]);
