@@ -104,6 +104,8 @@ const managerQuery = async (req, res) => {
         userNames.push(uQuery[i].first_name + " " + uQuery[i].last_name)
     };
 
+    userNames.push("No Manager");
+
     return userNames;
 };
 

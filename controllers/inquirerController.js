@@ -49,12 +49,20 @@ const runInq = () => inquirer.prompt([
             break;
 
         case "Add Employee":
-            // enter a first, last name, pick a role, then manager id
-            // roleQuery()
-            managerQuery()
+            let eRoles = [];
+            let eManagers = [];
+            roleQuery()
             .then(res => {
-                console.log(res);
-            });
+                eRoles = res;
+                managerQuery()
+                .then(res => {
+                    eManagers = res
+                    addEmpInq(eRoles, eManagers)
+                    .then(res => {
+                        console.log(res);
+                    })
+                })
+            })
             break;
 
         case "Update Employee Role":
@@ -132,7 +140,7 @@ const runInq = () => inquirer.prompt([
 
     });
 
-const addEmpInq = () => inquirer.prompt([
+const addEmpInq = (roleName, managerName) => inquirer.prompt([
 
     {
         type: 'input',
@@ -148,13 +156,13 @@ const addEmpInq = () => inquirer.prompt([
         type: 'list',
         name: 'role',
         message: "Please select the employee's role",
-        choices: eRoles
+        choices: roleName
     },
     {
         type: 'list',
         name: 'manager',
         message: "Please select the employee's manager",
-        choices: eManagers
+        choices: managerName
     },
 
 ]);
