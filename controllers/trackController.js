@@ -67,8 +67,8 @@ const addDepartment = async (req, res) => {
 const addRole = async (req, res) => {
 
     try {
-        const [rows] = await connection.query(`SELECT name, id FROM department WHERE name IN ("Finance");`);
-        return console.log(rows);
+        const [rows] = await connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${req.title}", ${req.salary}, ${req.departmentId});`);
+        return;
     } catch (error) {
         console.log(error);
         res.status(500).json({ error });

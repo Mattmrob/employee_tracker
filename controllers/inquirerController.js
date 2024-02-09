@@ -76,15 +76,15 @@ const runInq = () => inquirer.prompt([
                 .then(res => {
                     roleVal.title = res.title;
                     roleVal.salary = res.salary;
-                    getDepartmentId(res.departmentName).then(res => {
+                    getDepartmentId(res.departmentName)
+                    .then(res => {
                         roleVal.departmentId = res[0].id;
-                        console.log(roleVal);
-                    })
+                        addRole(roleVal)
+                        .then(res => {
+                            return runInq();
+                        })
+                    });
                 });
-            })
-            // runs inquirer prompt
-            .then(data => {
-                // adds data to roleVal and gets department id that matches department name
             })
             // .then(res => {
             //     console.log(res.title, res.salary, res.departmentName)
