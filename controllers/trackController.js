@@ -143,7 +143,8 @@ const getManagerId = async (req, res) => {
     // }
 
     try {
-        const [rows] = await connection.query(`SELECT first_name, last_name, id FROM employee WHERE first_name IN ("${trimmed_name[0]}");`);
+        const [rows] = await connection.query(`SELECT first_name, last_name, id FROM employee WHERE first_name = "${trimmed_name[0]}" AND last_name = "${trimmed_name[1]}";`);
+        // const [rows] = await connection.query(`SELECT first_name, last_name, id FROM employee WHERE first_name IN ("${trimmed_name[0]}");`);
         return rows;
     } catch (error) {
         console.log(error);
