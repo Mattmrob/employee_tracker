@@ -113,10 +113,12 @@ const runInq = () => inquirer.prompt([
         case "Update Employee Role":
             // uRoles is used for inquirer options (updateRoles)
             // uEmp are employees to pick from for update in inquirer (updateEmployees)
-            // uVal is passed into our update query (updateValue)
+            // uVal is passed into our update query (updateValue) and is used to find id values for the role
             let uRoles = [];
             let uEmp = [];
             let uVal = {
+                empName: [],
+                roleName: "",
                 id: "",
                 role_id: "",
             }
@@ -130,9 +132,19 @@ const runInq = () => inquirer.prompt([
                 // set employees to uEmp value, pass employees and roles into inquirer prompt
                 .then(res => {
                     uEmp = res;
-                    updateEmpRole(uEmp, uRoles)
+                    updateEmpRoleInq(uEmp, uRoles)
                     .then(res => {
-                        console.log(res);
+                        // setting uVal.empName[0] to chosen employee's first name, and [1] to last name
+                        uVal.empName = res.employeeChoice.split(' ');
+                        uVal.roleName = res.roleChoice;
+                        getRoleId(res.role)
+                        .then(res => {
+                            uVal.role_id = res[0].id;
+                            updateEmployee(uVal)
+                            .then(res => {
+                                return runInq();
+                            })
+                        })
                     })
                 })
             })
@@ -266,7 +278,7 @@ const addRoleInq = (departments) => inquirer.prompt([
 
 ]);
 
-const updateEmpRole = (employees, roles) => inquirer.prompt([
+const updateEmpRoleInq = (employees, roles) => inquirer.prompt([
 
     {
         type: 'list',
