@@ -11,6 +11,7 @@ const {
         departmentQuery,
         roleQuery,
         managerQuery,
+        employeeQuery,
         addRole
       } = require('./trackController')
 
@@ -110,8 +111,31 @@ const runInq = () => inquirer.prompt([
             break;
 
         case "Update Employee Role":
-            // REQUIRED
-            console.log(res.option)
+            // uRoles is used for inquirer options (updateRoles)
+            // uEmp are employees to pick from for update in inquirer (updateEmployees)
+            // uVal is passed into our update query (updateValue)
+            let uRoles = [];
+            let uEmp = [];
+            let uVal = {
+                id: "",
+                role_id: "",
+            }
+            // get all active roles
+            roleQuery()
+            // set uRoles to retreived value from roleQuery
+            // use employee query to get all employees as inquirer options
+            .then(res => {
+                uRoles = res
+                employeeQuery()
+                // set employees to uEmp value, pass employees and roles into inquirer prompt
+                .then(res => {
+                    uEmp = res;
+                    updateEmpRole(uEmp, uRoles)
+                    .then(res => {
+                        console.log(res);
+                    })
+                })
+            })
             // select an employee, select a new role for them - list - (updates on sql)
             break;
 
@@ -238,6 +262,23 @@ const addRoleInq = (departments) => inquirer.prompt([
         name: 'departmentName',
         message: "Please select the department this role belongs to",
         choices: departments
+    },
+
+]);
+
+const updateEmpRole = (employees, roles) => inquirer.prompt([
+
+    {
+        type: 'list',
+        name: 'employeeChoice',
+        message: "Please an employee whose role you would like to update",
+        choices: employees
+    },
+    {
+        type: 'list',
+        name: 'roleChoice',
+        message: "Please select their new role",
+        choices: roles
     },
 
 ]);

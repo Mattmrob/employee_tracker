@@ -109,6 +109,18 @@ const managerQuery = async (req, res) => {
     return userNames;
 };
 
+const employeeQuery = async (req, res) => {
+    
+    let eQuery = await listAll();
+    let userNames = [];
+
+    for (i = 0; i < eQuery.length; i++) {
+        userNames.push(eQuery[i].first_name + " " + eQuery[i].last_name)
+    };
+
+    return userNames;
+};
+
 const getDepartmentId = async (req, res) => {
 
     try {
@@ -195,6 +207,7 @@ module.exports = {
     departmentQuery,
     roleQuery,
     managerQuery,
+    employeeQuery,
     getDepartmentId,
     getRoleId,
     getManagerId,
