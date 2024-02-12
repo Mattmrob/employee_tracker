@@ -4,7 +4,8 @@ const {
         listAllRoles, 
         listAllDepartments, 
         addEmployee, 
-        addDepartment, 
+        addDepartment,
+        updateEmployeeRole,
         getDepartmentId, 
         getRoleId,
         getManagerId,
@@ -119,7 +120,6 @@ const runInq = () => inquirer.prompt([
             let uVal = {
                 empName: [],
                 roleName: "",
-                id: "",
                 role_id: "",
             }
             // get all active roles
@@ -137,10 +137,10 @@ const runInq = () => inquirer.prompt([
                         // setting uVal.empName[0] to chosen employee's first name, and [1] to last name
                         uVal.empName = res.employeeChoice.split(' ');
                         uVal.roleName = res.roleChoice;
-                        getRoleId(res.role)
+                        getRoleId(res.roleChoice)
                         .then(res => {
                             uVal.role_id = res[0].id;
-                            updateEmployee(uVal)
+                            updateEmployeeRole(uVal)
                             .then(res => {
                                 return runInq();
                             })

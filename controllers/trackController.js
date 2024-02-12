@@ -71,6 +71,19 @@ const addRole = async (req, res) => {
 
 };
 
+const updateEmployeeRole = async (req, res) => {
+
+    try {
+        const [rows] = await connection.query(`UPDATE employee SET role_id = ${req.role_id} WHERE first_name = "${req.empName[0]}" AND last_name = "${req.empName[1]}";`);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+
+};
+
+
 let departmentQuery = async () => {
 
     let dQuery = await listAllDepartments();
@@ -204,6 +217,7 @@ module.exports = {
     addEmployee,
     addDepartment,
     addRole,
+    updateEmployeeRole,
     departmentQuery,
     roleQuery,
     managerQuery,
