@@ -26,11 +26,11 @@ Once all package dependencies are installed, and the database is generate and po
 
 Doing so should give you the following list of options:
 
-![image](assets/img/emp1.png)
+![image](assets/emp1.png)
 
 From here, users can move up and down with the arrow keys and use enter to select an option - selecting an option will either list database information or begin a series of prompts to make a change to the database. Viewing lists while adding or updating changes.
 
-![image](assets/img/emp2.png)
+![image](assets/emp2.png)
 
 For a video breakdown of the application in use, please visit the following link!
 
