@@ -24,7 +24,7 @@ VALUES ("Bigg", "Mike", 1, null),
        ("Cathrine", "Stromwell", 5, 1),
        ("Maple", "Mallard", 6, 7),
        ("Kevin", "Speir", 7, 1),
-       ("Delvelkracthu", "The Destroyer of Planets", 8, 9),
+       ("Delvelkracthu", "TheDestroyerOfPlanets", 8, 9),
        ("Stephany", "Harts", 8, 9),
        ("Ben", "Jamin", 8, 9);
 

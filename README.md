@@ -34,7 +34,7 @@ From here, users can move up and down with the arrow keys and use enter to selec
 
 For a video breakdown of the application in use, please visit the following link!
 
-*link here*
+[Example Video](https://drive.google.com/file/d/1ei23xqKdmS9GodNr6InLWVWJDmHTInVs/view)
 
 
 ## Credits
