@@ -51,6 +51,7 @@ const runInq = () => inquirer.prompt([
             break;
 
         case "Add Employee":
+            // set variables that will be passed into mysql
             let eRoles = [];
             let eManagers = [];
             let eVal = {
@@ -59,22 +60,34 @@ const runInq = () => inquirer.prompt([
                 role_id: 0,
                 manager_id: null,
             }
+            // roleQuery retreives all currently added roles from mysql
             roleQuery()
             .then(res => {
+                // we assign the roles to the eRoles array, then managerQuery retreives all current employees as manager options
                 eRoles = res;
                 managerQuery()
                 .then(res => {
+                    // managers are assigned to the eManagers variable, then both eRoles and eManagers arrays are passed into the addEmpInq query function
+                    // where those two arrays are options users can select for role and manager
                     eManagers = res
                     addEmpInq(eRoles, eManagers)
                     .then(res => {
+                        // then, what the user selects in the query is assigned to the eVal object
+                        // eVal.manager_id's value is currently just a placeholder we need to refine into an id
+                        // we then run getRoleId, which takes the role name we got from roleQuery and searches the database for a match
                         eVal.first_name = res.first_name;
                         eVal.last_name = res.last_name;
                         eVal.manager_id = res.manager;
                         getRoleId(res.role)
                         .then(res => {
+                            // we then assign the matching role's id value to the eVal.role_id
+                            // we do the same with getManagerId
                             eVal.role_id = res[0].id;
                             getManagerId(eVal.manager_id)
                             .then(res => {
+                                // if we have no match on the manager id, meaning no response, it means we selected the 'no manager' option
+                                // so we set manager to null
+                                // otherwise, manager is equal to our matching response's id value
                                 let test = res;
                                 if (!res) {
                                     eVal.manager_id = null;
@@ -83,8 +96,10 @@ const runInq = () => inquirer.prompt([
                                     let newManagerId = test[0].id;
                                     eVal.manager_id = newManagerId;
                                 }
+                                // then we add an employee passing all the values we have assigned to eVal
                                 addEmployee(eVal)
                                 .then(res => {
+                                    // return to starting inquirer question
                                     return runInq();
                                 })
                             })
